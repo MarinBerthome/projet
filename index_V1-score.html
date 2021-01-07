@@ -1,0 +1,197 @@
+<html>
+
+<button id="debuter" onclick="debuter()">debuter</button>
+
+</br>
+<input class="input" id="chiffre1" name="chiffre1" type="texte" size="2" maxlength="2" autocomplete="off" readonly="true" />
+<input class="input" id="operateur" name="operateur" type="texte" size="2" maxlength="2" autocomplete="off" readonly="true">
+<input class="input" id="chiffre2" name="chiffre2" type="texte" size="2" maxlength="2" readonly="true"/>
+
+
+</br>
+</br>
+<input class="input" id="reponse" name="reponse" placeholder="Entrez la réponse">
+
+</br>
+</br>
+<button id="verif" onclick="verif()">verif</button>
+
+</br>
+</br>
+
+<div id="stats" style="float:right; padding-right:75px">
+<div style="float:left;">Nombre de bonnes reponses :&nbsp;</div>
+<div id="bonne" style="float:left;font-weight:bold;">0</div>
+<div style="float:left;">&nbsp; Nombre d'erreurs : &nbsp;</div>
+<div id="erreur" style="float:left;font-weight:bold;">0</div>
+<div style="float:left;"> &nbsp;Questions restantes :&nbsp;</div>
+<div id="restant" style="float:left;font-weight:bold;">10</div>
+<div style="float:left;"> &nbsp;Score :&nbsp;</div>
+<div id="score" style="float:right;font-weight:bold;">0</div>
+</div>
+</form>
+</html>
+
+
+
+
+
+
+<script>
+    var bonne_rep, nb_erreurs = 0;
+    var nb_questions = 10;
+    var jouer=false;
+    var score = 0;
+
+    function debuter()
+    {
+        jouer=true;
+        bonne_rep = 0;
+        nb_questions = 10;
+        nb_erreurs = 0;
+        score = 0;
+        init();
+        suivant();
+        
+    }
+
+    function init()
+    {
+        document.getElementById('restant').innerText = nb_questions;
+        document.getElementById('erreur').innerText = nb_erreurs;
+        document.getElementById('bonne').innerText = bonne_rep;
+        document.getElementById('score').innerText = score;
+    }
+
+    function suivant()
+    {
+        var indice;
+        var test=true;
+        /*
+        if(jouer==false)
+        {
+            return;
+        }
+        */
+
+        remplir();
+    }
+
+    function verif()
+    {
+        document.getElementById('restant').innerText = nb_questions;
+        var resultat = document.getElementById('reponse').value;
+        var chiffre1 = document.getElementById("chiffre1").value;
+        var operateur = document.getElementById("operateur").value;
+        var chiffre2 = document.getElementById("chiffre2").value;
+
+        var correction;
+
+        switch (operateur)
+        {
+            case '+' :
+                correction =  parseFloat(chiffre1)  + parseFloat(chiffre2) ;
+                break;
+
+            case '-' :
+                correction = chiffre1 - chiffre2;
+                break;
+            
+            case 'x' :
+                correction = chiffre1 * chiffre2;
+                break;
+        }
+
+        if(resultat == correction)
+        {
+            bonne_rep += 1;
+            score += 100;
+            document.getElementById('bonne').innerText = bonne_rep;
+            document.getElementById('score').innerText = score;
+
+        }
+        else
+        {
+            nb_erreurs += 1;
+            document.getElementById('erreur').innerText = nb_erreurs; 
+        }
+
+        if(nb_questions != 0)
+        {
+            nb_questions = nb_questions -1;
+            suivant();
+        }
+        else
+        {
+            alert("Jeux terminé vous avez " + bonne_rep + " bonnes réponses!");
+            alert("Votre score est de " + score + " Bravo !");
+            classement();
+        }
+
+        
+    }
+
+
+    function getRandomNumber(min, max)
+    {
+        
+        // On arrondit à la décimale
+        min = Math.ceil(min); 
+        max = Math.floor(max);
+
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+    
+    function getRandomOperator()
+    {
+        const operators = ["+", "x", "-"];
+
+        const random = Math.floor(Math.random() * operators.length);
+
+        return operators[random];
+
+    }
+
+    function verifNegatif(chiffre1, chiffre2)
+    {
+        while(chiffre2 > chiffre1)
+        {
+            chiffre1 = getRandomNumber(1,9);
+        }
+        return chiffre1;
+    }
+    
+    function remplir()
+    {
+        operateur = getRandomOperator();
+        chiffre1 = getRandomNumber(1,9);
+        chiffre2 = getRandomNumber(1,9);
+
+        if(operateur == "-")
+        {
+            chiffre1 = verifNegatif(chiffre1, chiffre2);
+        }
+
+        document.getElementById("chiffre1").value = chiffre1;
+        document.getElementById("operateur").value = operateur;
+        document.getElementById("chiffre2").value = chiffre2;
+    }
+
+    function classement()
+    {
+        var i = 0;
+        var file = new ActiveXObject("Scripting.FileSystemObject");
+        var a = file.CreateTextFile("C:\\Classement.txt", true);
+        alert(" Ecriture dans le fichier ");
+        a.WriteLine(score);
+        a.close();
+        /*for(i=0; i< = 10)
+        {
+            if (score < tab[i]) {
+                //On regarde si le score au dessus est plus grand ou non et on l'inscrit dans le i-1
+            }
+        }*/
+
+    }
+</script>
+
