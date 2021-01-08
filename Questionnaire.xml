@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xs:schema targetNamespace="Schema_questionnaire.xsd"
+<xs:schema targetNamespace="Schema_questionnaire.xsd">
  <questionnaire>
 
   <instructions>Ceci est un Questionnaire à Choix Multiple : il faut choisir une réponse parmi les 4 proposées </instructions>
