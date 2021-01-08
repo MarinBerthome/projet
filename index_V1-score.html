@@ -1,4 +1,6 @@
+<script src="script.js"></script>
 <html>
+
 
 
 <!--Le bouton va permettre de débuter le jeu en appelant la fonction debuter()-->
@@ -42,15 +44,38 @@
 
 </div>  
 
+<div id="countdown">
+
+</div>
+
 
 </html>
 
-<!--JAVASCRIPT-->
+
 <script>
-    
     // Variables globales
+
     var bonne_rep, nb_erreurs = 0;
     var nb_questions = 10;
+    let startingMinutes =  2;
+    let time = startingMinutes * 60;
+
+
+    //On instancie le timer
+    var timer = setInterval(updateCountdown, 1000);
+    stopInterval(timer);
+
+    //#region Constantes qui permetent de récuperer les informations des div
+    const countDownEl = document.getElementById('countdown');
+    const bonneReponseEl = document.getElementById('bonne');
+    const erreursEl = document.getElementById('erreur');
+    const reponseEl = document.getElementById('reponse');
+    const restantEl = document.getElementById('restant');
+    const chiffre1El = document.getElementById('chiffre1');
+    const chiffre2El = document.getElementById('chiffre2');
+    const operateurEl = document.getElementById('operateur');
+
+    //#endregion
 
     //Fonction appelée lors de l'appuie du bouton Débuter.
     function debuter()
@@ -58,6 +83,12 @@
         bonne_rep = 0;
         nb_erreurs = 0;
         nb_questions = 10;
+        startingMinutes =  2;
+        time = startingMinutes * 60;
+        
+        // On lance le timer à 2 minutes
+        clearInterval(timer);
+        timer = setInterval(updateCountdown, 1000);
 
         init();
         suivant();
@@ -66,19 +97,24 @@
     //Fonction qui va réinitialiser les statistiques
     function init()
     {
-        document.getElementById('erreur').innerText = nb_erreurs;
-        document.getElementById('bonne').innerText = bonne_rep;
+        erreursEl.innerText = nb_erreurs;
+        bonneReponseEl.innerText = bonne_rep;
     }
 
     function suivant()
     {
 
-        document.getElementById('restant').innerText = nb_questions;
+        restantEl.innerText = nb_questions;
         //On vide la textbox
-        document.getElementById('reponse').value = "";
+        reponseEl.value = "";
 
         //On ajoute le calcul
         remplir();
+    }
+
+    function stopInterval(leTimer)
+    {
+        clearInterval(leTimer);
     }
 
     
@@ -88,10 +124,10 @@
 
         
         //On récupere toutes les valeurs.
-        var reponse = document.getElementById('reponse').value;
-        var chiffre1 = document.getElementById("chiffre1").innerHTML;
-        var chiffre2 = document.getElementById("chiffre2").innerHTML;
-        var operateur = document.getElementById("operateur").innerHTML;
+        var reponse = reponseEl.value;
+        var chiffre1 = chiffre1El.innerHTML;
+        var chiffre2 = chiffre2El.innerHTML;
+        var operateur = operateurEl.innerHTML;
 
         //On va faire le calcul pour avoir le bon résultat, le switch va permettre de calculer en fonction de l'opérateur
         var correction;
@@ -114,23 +150,25 @@
         if(reponse == correction)
         {
             bonne_rep += 1;
-            document.getElementById('bonne').innerText = bonne_rep;
+            bonneReponseEl.innerText = bonne_rep;
 
         }
         else
         {
             nb_erreurs += 1;
-            document.getElementById('erreur').innerText = nb_erreurs; 
+            erreursEl.innerText = nb_erreurs; 
         }
 
-        if(nb_questions != 0)
+        if(nb_questions != 1)
         {
             nb_questions = nb_questions - 1;
             suivant();
         }
         else
         {
-            alert("Jeux terminé vous avez " + bonne_rep + " bonnes réponses!");
+            nb_questions = nb_questions - 1;
+            restantEl.innerText = nb_questions;
+            alert("Jeux terminé vous avez " + bonne_rep + " bonnes réponses! Vous avez répondu au questions en " + countDownEl.innerText + " minutes.");
         }
 
         
@@ -147,9 +185,9 @@
             chiffre1 = verifNegatif(chiffre1, chiffre2);
         }
 
-        document.getElementById("chiffre1").innerText = chiffre1;
-        document.getElementById("operateur").innerText = operateur;
-        document.getElementById("chiffre2").innerText = chiffre2;
+        chiffre1El.innerText = chiffre1;
+        operateurEl.innerText = operateur;
+        chiffre2El.innerText = chiffre2;
     }
 
     function verifNegatif(chiffre1, chiffre2)
@@ -182,6 +220,27 @@
 
     }
 
+    function updateCountdown()
+    { 
+
+        const minutes = Math.floor(time/60);
+        let seconds = time % 60;
+
+        seconds = seconds < 10 ? '0' + seconds : seconds;
+
+        countDownEl.innerHTML = `${minutes} : ${seconds}`;
+
+        if(time > 0)
+        {
+            time--;
+        }
+        else
+        {
+            stopInterval(timer);
+            alert("Temps écoulé!");
+            
+        }
+    }
     function classement()
     {
         var i = 0;
