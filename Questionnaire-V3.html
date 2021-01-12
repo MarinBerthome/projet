@@ -23,31 +23,31 @@
       <div class="row slider-wrapper">
         <div class="col-md-12">
             <div class="slider-text  slider-text-two">
-              <h2 class="mbr-section-title mbr-fonts-style mbr-bold align-center display-1" style="color:black">Il faut choisir une réponse parmi les 4 proposées</h2>
+              
 
 <script>
-var pos = 0, test, test_status, question, choice, choices, chA, chB, chC, chD, correct = 0;
+var pos = 0, test, test_status, question, choice, choices, chA, chB, chC, chD, A,B,C,D, correct = 0;
 var questions = [
      ["Dans ma tirelire en forme de coquillage, j’avais 25 euros. Pour mon anniversaire, on m’a donné 3 pièces de 2 euros, 4 pièces de 1 euros, et 3 pièces de 50 centimes. Combien d’argent j’ai au final dans ma tirelire ?",
-       "30 euros", "3 euros et 50 centimes", "35 euros", "36 euros et 50 centimes", "D"],
+       "30 euros", "3 euros et 50 centimes", "35 euros", "36 euros et 50 centimes", "4"],
          ["Sur ma feuille il y a écrit “ 5 x 3 ”. Aide moi à trouver ce qui me donne le même résultat :",
-          "10 + 3", "2 + 2 + 2 + 5 + 3", "10 + 5", "3 x 4", "C"],
+          "10 + 3", "2 + 2 + 2 + 5 + 3", "10 + 5", "3 x 4", "3"],
          ["J’ai 423 coquillages dans ma collection. Dis moi dans ce nombre quel est la bonne combinaison de centaines, dizaines et unités :", 
-         "300 + 40 + 3 ", "400 + 20 + 3", "200 + 30 + 4","300 + 40 + 2", "B"],
+         "300 + 40 + 3 ", "400 + 20 + 3", "200 + 30 + 4","300 + 40 + 2", "2"],
          ["Quelle est la femelle de l’âne ?", 
-         "La jument", "L’ânette", "L'ânesse", "La canne", "C"],
+         "La jument", "L’ânette", "L'ânesse", "La canne", "3"],
          ["Quelle science étudie les atomes et les molécules ?", 
-         "La physique", "La chimie" , "La biologie", "Les mathématiques", "B"],
+         "La physique", "La chimie" , "La biologie", "Les mathématiques", "2"],
          ["Combien de fois par jour la grande aiguille d’une horloge indique-t-elle le chiffre 4 ?", 
-         "2 fois", "4 fois" , "12 fois", "24 fois", "B"],
+         "2 fois", "4 fois" , "12 fois", "24 fois", "2"],
          ["Le “Fair-play” c’est :", 
-         "Respecter les règles, les autres et soi-même", "Être mauvais joueur et toiser son adversaire" , "Tricher et provoquer son adversaire","Manquer de respect aux participants", "A"],
+         "Respecter les règles, les autres et soi-même", "Être mauvais joueur et toiser son adversaire" , "Tricher et provoquer son adversaire","Manquer de respect aux participants", "1"],
          ["Dans quel domaine Pablo Picasso s’est-il particulièrement illustré ? ", 
-         "La musique", "La peinture" , "Le football", "Le théâtre ", "B"],
+         "La musique", "La peinture" , "Le football", "Le théâtre ", "2"],
          ["Une vitesse égale à 36 km/h correspond à :", 
-         "10 m/s", "60 m/s" , "100 m/s", "360 m/s", "A"],
+         "10 m/s", "60 m/s" , "100 m/s", "360 m/s", "1"],
          ["De quelle couleur est la couleur vermillon ?", 
-         "Rouge", "Bleu" , "Vert", "Jaune", "A"],
+         "Rouge", "Bleu" , "Vert", "Jaune", "1"],
 		];
 		function _(x){
 	return document.getElementById(x);
@@ -63,30 +63,32 @@ function renderQuestion(){
 	}
 	_("test_status").innerHTML = "Question "+(pos+1)+" sur "+questions.length;
 	question = questions[pos][0];
-	chA = questions[pos][1];
+
+  chA = questions[pos][1];
 	chB = questions[pos][2];
-    chC = questions[pos][3];
-    chD = questions[pos][4];
-	test.innerHTML = "<h3>"+question+"</h3>";
-	test.innerHTML += "<input type='radio' name='choices' value='A'> "+chA+"<br>";
-	test.innerHTML += "<input type='radio' name='choices' value='B'> "+chB+"<br>";
-    test.innerHTML += "<input type='radio' name='choices' value='C'> "+chC+"<br>";
-    test.innerHTML += "<input type='radio' name='choices' value='D'> "+chD+"<br><br>";
-	test.innerHTML += "<button onclick='checkAnswer()'>Suivant !</button>";
+  chC = questions[pos][3];
+  chD = questions[pos][4];
+  
+  test.innerHTML = "<div class='colonne' id='liste'>";  
+	test.innerHTML += "<h3>"+question+"</h3>";
+	test.innerHTML += "<div class='calque_rep' id='rep1' onClick='checkAnswer(1)'>"+chA+"</div>";
+	test.innerHTML += "<div class='calque_rep' id='rep2' onClick='checkAnswer(2)'>"+chB+"</div>";
+  test.innerHTML += "<div class='calque_rep' id='rep3' onClick='checkAnswer(3)'>"+chC+"</div>";
+  test.innerHTML += "<div class='calque_rep' id='rep4' onClick='checkAnswer(4)'>"+chD+"</div>";
+  test.innerHTML += "</div>";
 }
-function checkAnswer(){
-	choices = document.getElementsByName("choices");
-	for(var i=0; i<choices.length; i++){
-		if(choices[i].checked){
-			choice = choices[i].value;
-		}
-	}
-	if(choice == questions[pos][5]){
+
+
+function checkAnswer(choice){
+
+	if(choice == questions[pos][5]){    
 		correct++;
 	}
 	pos++;
 	renderQuestion();
 }
+
+
 window.addEventListener("load", renderQuestion, false);
 </script>
 </head>
