@@ -1,0 +1,302 @@
+<script src="script.js"></script>
+<!DOCTYPE html>
+<html>
+    <link rel="stylesheet" type="text/css" href="index.css"/>
+    <title>Arithmétique</title>
+
+<div class="header">
+    <a class="logo">Jeu pour enfants</a>
+    <div class="header-right">
+      <a href="Index-V2.html">Recommencer</a>
+      <a href="QuestionnaireV4.html">Exercice suivant</a>
+    </div>
+
+</div>
+<body>
+ <div class="mbr-overlay" style="opacity: 0.1; background-color: rgb(36, 233, 179);">
+ </div>
+
+ <div class="w3-display-middle">
+    <section id="banner">
+        
+        <section class="cid-r7cqpTZvzZ mbr-fullscreen mbr-parallax-background" id="header1-0">
+      
+
+ <div class="container text-center" >
+    <div class="row slider-wrapper">
+        <div class="col-md-12">
+            <div class="slider-text  slider-text-two">
+ <!--Le bouton va permettre de débuter le jeu en appelant la fonction debuter()-->
+ <button id="debuter" onclick="debuter()">Débuter</button>
+
+
+ </br>
+ </br>
+
+
+ <!--Div qui contient les chiffres-->
+ <div id="calcul" style="float:left;padding-left:60px">
+
+ <div id="chiffre1" style="float:left;font-size: xx-large;" ></div>
+ <div id="operateur" style="float:left;font-size: xx-large;"></div>
+ <div id="chiffre2" style="float:left;font-size: xx-large;"></div>
+
+ </div>
+
+
+ </br>
+ </br>
+ </br>
+
+
+<!--Textbox réponse de l'utilisateur, pour entrer la réponse il faut appuyer sur entrée ce qui va appeler la fonction verif()-->
+<input class="input" id="reponse" name="reponse" style="float:left;" placeholder="Entrer la réponse" onkeyup="if(event.keyCode==13) verif()">
+
+
+<!--Div qui contient les statistiques du jeux-->
+<div id="stats" style="float:right; padding-right:75px">
+
+<div style="float:left;">Nombre de bonnes reponses :&nbsp;</div>
+<div id="bonne" style="float:left;font-weight:bold;">0</div>
+
+<div style="float:left;">&nbsp; Nombre d'erreurs : &nbsp;</div>
+<div id="erreur" style="float:left;font-weight:bold;">0</div>
+
+<div style="float:left;"> &nbsp;Questions restantes :&nbsp;</div>
+<div id="restant" style="float:left;font-weight:bold;">10</div>
+
+<div style="float:left;"> &nbsp;Score :&nbsp;</div>
+<div id="score" style="float:right;font-weight:bold;">0</div>
+
+</div>  
+
+<div id="countdown">
+
+</div>
+
+</div>
+
+
+<script>
+    // Variables globales
+
+    var bonne_rep, nb_erreurs, score = 0;
+    var nb_questions = 10;
+    let startingMinutes =  2;
+    let time = startingMinutes * 60;
+
+
+    //On instancie le timer
+    var timer = setInterval(updateCountdown, 1000);
+    stopInterval(timer);
+
+    //#region Constantes qui permetent de récuperer les informations des div
+    const countDownEl = document.getElementById('countdown');
+    const bonneReponseEl = document.getElementById('bonne');
+    const erreursEl = document.getElementById('erreur');
+    const reponseEl = document.getElementById('reponse');
+    const restantEl = document.getElementById('restant');
+    const chiffre1El = document.getElementById('chiffre1');
+    const chiffre2El = document.getElementById('chiffre2');
+    const operateurEl = document.getElementById('operateur');
+    const scoreEl  = document.getElementById('score');
+
+    //#endregion
+
+    //Fonction appelée lors de l'appuie du bouton Débuter.
+    function debuter()
+    {
+        bonne_rep = 0;
+        nb_erreurs = 0;
+        nb_questions = 10;
+        startingMinutes =  2;
+        time = startingMinutes * 60;
+        score = 0;
+        
+        // On lance le timer à 2 minutes
+        clearInterval(timer);
+        timer = setInterval(updateCountdown, 1000);
+
+        init();
+        suivant();
+    }
+
+    //Fonction qui va réinitialiser les statistiques
+    function init()
+    {
+        erreursEl.innerText = nb_erreurs;
+        bonneReponseEl.innerText = bonne_rep;
+        scoreEl.value = score;
+    }
+
+    function suivant()
+    {
+
+        restantEl.innerText = nb_questions;
+        //On vide la textbox
+        reponseEl.value = "";
+
+        //On ajoute le calcul
+        remplir();
+    }
+
+    function stopInterval(leTimer)
+    {
+        clearInterval(leTimer);
+    }
+
+    
+    function verif()
+    {
+        //On change le nombre de questions restantes
+
+        
+        //On récupere toutes les valeurs.
+        var reponse = reponseEl.value;
+        var chiffre1 = chiffre1El.innerHTML;
+        var chiffre2 = chiffre2El.innerHTML;
+        var operateur = operateurEl.innerHTML;
+
+        //On va faire le calcul pour avoir le bon résultat, le switch va permettre de calculer en fonction de l'opérateur
+        var correction;
+        switch (operateur)
+        {
+            case '+' :
+                //On va mettre ici parseFloat car sinon chiffre1 et chiffre2 vont être concaténés
+                correction =  parseFloat(chiffre1)  + parseFloat(chiffre2) ;
+                break;
+
+            case '-' :
+                correction = chiffre1 - chiffre2;
+                break;
+            
+            case 'x' :
+                correction = chiffre1 * chiffre2;
+                break;
+        }
+
+        if(reponse == correction)
+        {
+            bonne_rep += 1;
+            bonneReponseEl.innerText = bonne_rep;
+            score += 40;
+            scoreEl.innerText = score;
+        }
+        else
+        {
+            nb_erreurs += 1;
+            erreursEl.innerText = nb_erreurs; 
+        }
+
+        if(nb_questions != 1)
+        {
+            nb_questions = nb_questions - 1;
+            suivant();
+        }
+        else
+        {
+            nb_questions = nb_questions - 1;
+            restantEl.innerText = nb_questions;
+            alert("Jeux terminé vous avez " + bonne_rep + " bonnes réponses! Vous avez répondu au questions en " + countDownEl.innerText + " minutes.");
+            score+= time * 10;
+            alert("Votre score est de " + score + " Bravo !");
+            WriteToFile();
+        }
+
+        
+    }
+
+    function remplir()
+    {
+        operateur = getRandomOperator();
+        chiffre1 = getRandomNumber(1,9);
+        chiffre2 = getRandomNumber(1,9);
+
+        if(operateur == "-")
+        {
+            chiffre1 = verifNegatif(chiffre1, chiffre2);
+        }
+
+        chiffre1El.innerText = chiffre1;
+        operateurEl.innerText = operateur;
+        chiffre2El.innerText = chiffre2;
+    }
+
+    function verifNegatif(chiffre1, chiffre2)
+    {
+        while(chiffre2 > chiffre1)
+        {
+            chiffre1 = getRandomNumber(1,9);
+        }
+        return chiffre1;
+    }
+    
+
+    function getRandomNumber(min, max)
+    {
+        
+        // On arrondit à la décimale
+        min = Math.ceil(min); 
+        max = Math.floor(max);
+
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+    
+    function getRandomOperator()
+    {
+        const operators = ["+", "x", "-"];
+
+        const random = Math.floor(Math.random() * operators.length);
+
+        return operators[random];
+
+    }
+
+    function updateCountdown()
+    { 
+
+        const minutes = Math.floor(time/60);
+        let seconds = time % 60;
+
+        seconds = seconds < 10 ? '0' + seconds : seconds;
+
+        countDownEl.innerHTML = `${minutes} : ${seconds}`;
+
+        if(time > 0)
+        {
+            time--;
+        }
+        else
+        {
+            stopInterval(timer);
+            alert("Temps écoulé!");
+            
+        }
+    }
+    /*function classement()
+    {
+        var i = 0;
+        var file = new ActiveXObject("Scripting.FileSystemObject");
+        var a = file.CreateTextFile("C:\\Classement.txt", true);
+        alert(" Ecriture dans le fichier ");
+        a.WriteLine(score);
+        a.close();
+        /*for(i=0; i< = 10)
+        {
+            if (score < tab[i]) {
+                //On regarde si le score au dessus est plus grand ou non et on l'inscrit dans le i-1
+            }
+        }*/
+
+    function WriteToFile()
+    {
+        var fso  = new ActiveXObject("Scripting.FileSystemObject");
+        var txtFile = fso.CreateTextFile("TestFile.txt", true);
+        txtFile.WriteLine("This is a test");
+        txtFile.Close();
+    }
+    
+</script>
+
+</body>
+</html>
