@@ -18,9 +18,9 @@
 
  <div class="w3-display-middle">
     <section id="banner">
-        
+
         <section class="cid-r7cqpTZvzZ mbr-fullscreen mbr-parallax-background" id="header1-0">
-      
+
 
  <div class="container text-center" >
     <div class="row slider-wrapper">
@@ -49,9 +49,12 @@
  </br>
 
 
-<!--Textbox réponse de l'utilisateur, pour entrer la réponse il faut appuyer sur entrée ce qui va appeler la fonction verif()-->
-<input class="input" id="reponse" name="reponse" style="float:left;" placeholder="Entrer la réponse" onkeyup="if(event.keyCode==13) verif()">
-
+<div class='colonne' id='liste'>
+<div class='calque_rep' id='rep1' onclick="verif(1)" ></div>
+<div class='calque_rep' id='rep2' onclick="verif(2)"></div>
+<div class='calque_rep' id='rep3' onclick="verif(3)"></div>
+<div class='calque_rep' id='rep4' onclick="verif(4)"></div>
+</div>
 
 <!--Div qui contient les statistiques du jeux-->
 <div id="stats" style="float:right; padding-right:75px">
@@ -80,10 +83,12 @@
 <script>
     // Variables globales
 
-    var bonne_rep, nb_erreurs, score = 0;
+    var bonne_rep, nb_erreurs,bonneRepBouton, score = 0;
     var nb_questions = 10;
     let startingMinutes =  2;
     let time = startingMinutes * 60;
+    
+    let tableau = [0,0,0,0];
 
 
     //On instancie le timer
@@ -91,15 +96,21 @@
     stopInterval(timer);
 
     //#region Constantes qui permetent de récuperer les informations des div
+
     const countDownEl = document.getElementById('countdown');
     const bonneReponseEl = document.getElementById('bonne');
-    const erreursEl = document.getElementById('erreur');
-    const reponseEl = document.getElementById('reponse');
     const restantEl = document.getElementById('restant');
+    const scoreEl  = document.getElementById('score');
+    const erreursEl = document.getElementById('erreur');
+
     const chiffre1El = document.getElementById('chiffre1');
     const chiffre2El = document.getElementById('chiffre2');
     const operateurEl = document.getElementById('operateur');
-    const scoreEl  = document.getElementById('score');
+
+    const rep1El = document.getElementById('rep1');
+    const rep2El = document.getElementById('rep2');
+    const rep3El = document.getElementById('rep3');
+    const rep4El = document.getElementById('rep4');
 
     //#endregion
 
@@ -112,7 +123,7 @@
         startingMinutes =  2;
         time = startingMinutes * 60;
         score = 0;
-        
+
         // On lance le timer à 2 minutes
         clearInterval(timer);
         timer = setInterval(updateCountdown, 1000);
@@ -134,7 +145,7 @@
 
         restantEl.innerText = nb_questions;
         //On vide la textbox
-        reponseEl.value = "";
+        //reponseEl.value = "";
 
         //On ajoute le calcul
         remplir();
@@ -145,35 +156,28 @@
         clearInterval(leTimer);
     }
 
-    
-    function verif()
+
+    function verif(nb)
     {
         //On change le nombre de questions restantes
+        var  correction = correct();
 
-        
-        //On récupere toutes les valeurs.
-        var reponse = reponseEl.value;
-        var chiffre1 = chiffre1El.innerHTML;
-        var chiffre2 = chiffre2El.innerHTML;
-        var operateur = operateurEl.innerHTML;
-
-        //On va faire le calcul pour avoir le bon résultat, le switch va permettre de calculer en fonction de l'opérateur
-        var correction;
-        switch (operateur)
+        switch (nb)
         {
-            case '+' :
-                //On va mettre ici parseFloat car sinon chiffre1 et chiffre2 vont être concaténés
-                correction =  parseFloat(chiffre1)  + parseFloat(chiffre2) ;
+            case 1:
+                reponse = rep1El.innerText;
                 break;
-
-            case '-' :
-                correction = chiffre1 - chiffre2;
+            case 2:
+                reponse = rep2El.innerText;
                 break;
-            
-            case 'x' :
-                correction = chiffre1 * chiffre2;
+            case 3:
+                reponse = rep3El.innerText;
+                break;
+            case 4:
+                reponse = rep4El.innerText;
                 break;
         }
+
 
         if(reponse == correction)
         {
@@ -206,42 +210,166 @@
         
     }
 
+    function correct()
+    {
+        //On récupere toutes les valeurs.
+        var chiffre1 = chiffre1El.innerHTML;
+        var chiffre2 = chiffre2El.innerHTML;
+        var operateur = operateurEl.innerHTML;
+
+        //On va faire le calcul pour avoir le bon résultat, le switch va permettre de calculer en fonction de l'opérateur
+        var correction;
+        switch (operateur)
+        {
+            case '+' :
+                //On va mettre ici parseFloat car sinon chiffre1 et chiffre2 vont être concaténés
+                correction =  parseFloat(chiffre1)  + parseFloat(chiffre2) ;
+                break;
+
+            case '-' :
+                correction = chiffre1 - chiffre2;
+                break;
+            
+            case 'x' :
+                correction = chiffre1 * chiffre2;
+                break;
+        }
+
+        return correction;
+    }
+
     function remplir()
     {
         operateur = getRandomOperator();
         chiffre1 = getRandomNumber(1,9);
         chiffre2 = getRandomNumber(1,9);
+        
 
         if(operateur == "-")
         {
             chiffre1 = verifNegatif(chiffre1, chiffre2);
         }
 
+
+
         chiffre1El.innerText = chiffre1;
         operateurEl.innerText = operateur;
         chiffre2El.innerText = chiffre2;
+
+        tableau = [0,0,0,0];
+        
+        while(tableauRemplit() == false)
+        {
+            val = getRandomNumber(0,3)
+
+            {
+                if(tableau[val]== 0)
+                {
+                    if(correctIsHere() == false)
+                    {
+                        tableau[val] = correct();
+                    }
+                    else
+                    {
+                        tableau[val] = genererValeurInexistante();
+                    }
+                }
+            }
+        }
+
+        rep1El.innerText = tableau[0];
+        rep2El.innerText = tableau[1];
+        rep3El.innerText = tableau[2];
+        rep4El.innerText = tableau[3];
+
     }
+
+    function genererValeurInexistante()
+    {
+
+        var operator =  Math.floor(Math.random()*2  );
+
+        var valeur = 0;
+
+        switch (operator)
+        {
+            case 0:
+                valeur = correct() + getRandomNumber(2,9);
+                break;
+            
+            case 1:
+                valeur = verifNegatif2(correct(), getRandomNumber(1,9));
+                break;
+        }
+        for(let i = 0; i < 3; i++)
+        {
+            if(tableau[i] == valeur)
+            {
+                valeur = genererValeurInexistante()
+            }
+        }
+        return valeur;
+    }
+
+    function correctIsHere()
+    {
+        var present = false;
+
+        for(let i=0; i < 4 ; i++ )
+        {
+            if(tableau[i] == correct())
+            {
+                present = true;
+            }
+        }
+        return present;
+    }
+
+    function tableauRemplit()
+    {
+        var remplit = true;
+        
+        for(let i = 0; i < 4; i++)
+        {
+            if(tableau[i] == 0)
+            {
+                remplit = false;
+            }
+        }
+        return remplit;
+    }
+
 
     function verifNegatif(chiffre1, chiffre2)
     {
-        while(chiffre2 > chiffre1)
+        while(0 >= chiffre1 - chiffre2)
         {
-            chiffre1 = getRandomNumber(1,9);
+            chiffre1 = getRandomNumber(1,9)   
         }
         return chiffre1;
     }
-    
+
+    function verifNegatif2(chiffre1, chiffre2)
+    {
+        while(0 >= chiffre1 - chiffre2)
+        {
+            chiffre2 = getRandomNumber(1,9)   
+        }
+        return chiffre1 - chiffre2;
+    }
+
+
 
     function getRandomNumber(min, max)
     {
-        
+
         // On arrondit à la décimale
         min = Math.ceil(min); 
         max = Math.floor(max);
 
         return Math.floor(Math.random() * (max - min + 1)) + min;
     }
-    
+
     function getRandomOperator()
     {
         const operators = ["+", "x", "-"];
@@ -270,7 +398,7 @@
         {
             stopInterval(timer);
             alert("Temps écoulé!");
-            
+
         }
     }
     /*function classement()
@@ -295,8 +423,10 @@
         txtFile.WriteLine("This is a test");
         txtFile.Close();
     }
-    
+
+
+
 </script>
 
 </body>
-</html>
+</html> 
