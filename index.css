@@ -253,3 +253,39 @@ position: relative;
 	background: rgba(104,117,29,1);
 
 }
+
+.colonne
+{
+	width:720px;
+	float:left;
+	height:auto;
+	text-align:center;
+	margin-left: 40px;
+}
+
+.calque_rep
+{
+	width:295px;
+	margin:30px;
+	padding-top:25px;
+	float:left;
+	height:80px;
+	text-align:center;
+	border:#333 1px solid;
+	-moz-border-radius: 10px;
+    -webkit-border-radius: 10px;	
+	background-color:#EDEEEE;
+	border:#7030a0 1px solid;
+	color:#7030a0;
+	font-size:20px;
+	margin-bottom:30px;
+	margin-left:40px;
+}
+
+
+.calque_rep:hover
+{
+	cursor:pointer;
+	box-shadow: 6px 6px 0px #aaa;
+	background-color:#ccccff;
+}
