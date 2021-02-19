@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<catalog>
+   <player id="ply01">
+      <pseudo>Marin</pseudo>
+      <score>1250</score>
+      <temps>1:32</temps>
+   </player>
+   <player id="ply02">
+      <pseudo>Cyril</pseudo>
+      <score>1200</score>
+      <temps>1:12</temps>
+   </player>
+   <player id="ply03">
+      <pseudo>Alan</pseudo>
+      <score>1000</score>
+      <temps>1:01</temps>
+   </player>
+   <player id="ply04">
+      <pseudo>Titouan</pseudo>
+      <score>800</score>
+      <temps>1:09</temps>
+   </player>
+</catalog>
