@@ -16,6 +16,30 @@ body{
             
 }
 
+#lesReponses
+{
+    visibility: hidden;
+}
+
+#leQuiz
+{
+    visibility: visible;
+}
+
+#laFin
+{
+    visibility: hidden  ;
+}
+
+.stats{
+
+    float: left;
+    margin-left: auto;
+    margin-right: auto;
+}
+    
+
+
 body,h1 {font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif, sans-serif; }
 body, html {height: 100%;
 }
@@ -181,8 +205,8 @@ h2 {
     font-weight: bold;
 }
 .cid-r7cqpTZvzZ .slider-text-two {
-    background: rgba(255, 255, 255, 0.8) none repeat scroll 0 0;
-    display: inline-block;
+    background: #ffffff  none repeat scroll 0 0;
+    display: inline-table;
     outline: 1px solid rgba(0, 0, 0, 0.2);
     outline-offset: -15px;
     padding: 30px 30px;
@@ -266,7 +290,6 @@ position: relative;
 .calque_rep
 {
 	width:295px;
-	margin:30px;
 	padding-top:25px;
 	float:left;
 	height:80px;
@@ -278,8 +301,9 @@ position: relative;
 	border:#7030a0 1px solid;
 	color:#7030a0;
 	font-size:20px;
-	margin-bottom:30px;
-	margin-left:40px;
+	margin-bottom:20px;
+	margin-left:30px;
+    margin-top:20px;
 }
 
 
