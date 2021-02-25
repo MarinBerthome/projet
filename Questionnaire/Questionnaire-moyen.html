@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<title>Questionnaire</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+<link rel="stylesheet" href="css.css" />
+<link rel="stylesheet" type="text/css" href="Index-V2.css" media="all" />
+    
+<div class="bgimg w3-display-container w3-animate-opacity w3-text-white parallax filter filter-color-red"">
+  
+  <div class="w3-display-middle">
+  <section id="banner">
+      
+      <section class="cid-r7cqpTZvzZ mbr-fullscreen mbr-parallax-background" id="header1-0">
+
+    <body style="background-color: #EBEBEB;">
+	
+    <div class="mbr-overlay" style="opacity: 0.1; background-color: rgb(36, 233, 179);">
+    </div>
+    <div class="container text-center" data-stellar-background-ratio=".5">
+      <div class="row slider-wrapper">
+        <div class="col-md-12">
+            <div class="slider-text  slider-text-two">
+              
+
+<script>
+var pos = 0, test, test_status, question, choice, choices, chA, chB, chC, chD, A,B,C,D, correct = 0;
+var questions = [
+     ["Dans ma tirelire en forme de coquillage, j'avais 25 euros. Pour mon anniversaire, on m'a donné 3 pièces de 2 euros, 4 pièces de 1 euro, et 3 pièces de 50 centimes. Combien d'argent j'ai au final dans ma tirelire ?",
+       "30 euros", "33 euros et 50 centimes", "35 euros", "36 euros et 50 centimes", "4"],
+         ["Quel fleuve passe par Paris ?",
+          "La Maine", "La Garonne", "La Seine", "Le Rhin", "3"],
+         ["Que veut dire 'sun' en anglais ?", 
+         "Pluie", "Nuages", "Soleil", "Orage", "3"],
+         ["Quelle est la femelle de l’âne ?", 
+         "La jument", "L’ânette", "L'ânesse", "La canne", "3"],
+         ["De quelle race sont les souris ?", 
+         "Mammifère", "Rongeur" , "Sauvage", "Arachnides", "2"],
+         ["Combien de fois par jour la grande aiguille d’une horloge indique-t-elle le chiffre 4 ?", 
+         "2 fois", "4 fois" , "12 fois", "24 fois", "2"],
+         ["Le “Fair-play” c’est :", 
+         "Respecter les règles, les autres et soi-même", "Être mauvais joueur et toiser son adversaire" , "Tricher et provoquer son adversaire","Manquer de respect aux participants", "1"],
+         ["Quelle est la capitale de l'Angleterre ?", 
+         "Marseille", "Quimper" , "Wales", "Londres", "4"],
+         ["Une vitesse égale à 36 km/h correspond à :", 
+         "10 m/s", "60 m/s" , "100 m/s", "360 m/s", "1"],
+         ["Pourquoi la Préhistoire a-t-elle pris fin ?", 
+         "Grâceà la fin des rois et le début des présidents", "Parce que c'était l'heure de l'histoire" , "Avec l'invention de l'écriture", "Grâce à Christophe Colomb qui à découvert l'Amérique", "1"],
+		];
+		function _(x){
+	return document.getElementById(x);
+}
+function renderQuestion(){
+	test = _("test");
+	if(pos >= questions.length){
+		test.innerHTML = "<h2>Tu as "+correct+" réponses correctes pour "+questions.length+" questions </h2>";
+		_("test_status").innerHTML = "FIN DE QUIZZ";
+		pos = 0;
+		correct = 0;
+		return false;
+	}
+	_("test_status").innerHTML = "Question "+(pos+1)+" sur "+questions.length;
+	question = questions[pos][0];
+
+  chA = questions[pos][1];
+	chB = questions[pos][2];
+  chC = questions[pos][3];
+  chD = questions[pos][4];
+  
+  test.innerHTML = "<div class='colonne' id='liste'>";  
+	test.innerHTML += "<h3>"+question+"</h3>";
+	test.innerHTML += "<div class='calque_rep' id='rep1' onClick='checkAnswer(1)'>"+chA+"</div>";
+	test.innerHTML += "<div class='calque_rep' id='rep2' onClick='checkAnswer(2)'>"+chB+"</div>";
+  test.innerHTML += "<div class='calque_rep' id='rep3' onClick='checkAnswer(3)'>"+chC+"</div>";
+  test.innerHTML += "<div class='calque_rep' id='rep4' onClick='checkAnswer(4)'>"+chD+"</div>";
+  test.innerHTML += "</div>";
+}
+
+
+function checkAnswer(choice){
+
+	if(choice == questions[pos][5]){    
+		correct++;
+	}
+	pos++;
+	renderQuestion();
+}
+
+
+window.addEventListener("load", renderQuestion, false);
+</script>
+</head>
+<body bgcolor="#CFCECB">
+<h2 id="test_status"></h2>
+<fieldset id="test">
+	<legend></legend>
+	Le test est un fail !
+</fieldset>
+</body>
+<hr>
+            </div>
+        </div>
+      </div>
+    </div>
+    
+</section>
+
+  </section>
+     
+     
+  </div>
+
+
+<div class="header">
+  <a class="logo">Jeu pour enfants</a>
+  <div class="header-right">
+    <a href="Questionnaire-moyen.html">Refaire l'exercice</a>
+    <a href="Index-V4.html">Menu</a>
+  </div>
+</div>
+</div>
+</body>
+</html>

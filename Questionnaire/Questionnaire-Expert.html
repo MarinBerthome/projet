@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<title>Questionnaire</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+<link rel="stylesheet" href="css.css" />
+<link rel="stylesheet" type="text/css" href="Index-V2.css" media="all" />
+    
+<div class="bgimg w3-display-container w3-animate-opacity w3-text-white parallax filter filter-color-red"">
+  
+  <div class="w3-display-middle">
+  <section id="banner">
+      
+      <section class="cid-r7cqpTZvzZ mbr-fullscreen mbr-parallax-background" id="header1-0">
+
+    <body style="background-color: #EBEBEB;">
+	
+    <div class="mbr-overlay" style="opacity: 0.1; background-color: rgb(36, 233, 179);">
+    </div>
+    <div class="container text-center" data-stellar-background-ratio=".5">
+      <div class="row slider-wrapper">
+        <div class="col-md-12">
+            <div class="slider-text  slider-text-two">
+              
+
+<script>
+var pos = 0, test, test_status, question, choice, choices, chA, chB, chC, chD, A,B,C,D, correct = 0;
+var questions = [
+     ["Quelle science étudie les atomes et les molécules ?",
+       "La physique", "La chimie", "La biologie", "Les mathématiques", "2"],
+         ["Dans quel domaine Pablo Picasso s'est-il particulièrement illustré ?",
+          "La musique", "Le peinture", "La biologie", "Le théâtre", "2"],
+         ["Une vitesse égale à 36 km/h correspond à :", 
+         "10 m/s", "60 m/s", "100 m/s", "360 m/s", "1"],
+         ["Dans quel pays se trouve la ville de Berlin ?", 
+         "Norvège", "Suède", "Belgique", "Allemagne", "4"],
+         ["A quel polygone compare-t-on la forme de la France ?", 
+         "Un pentagone", "Un triangle" , "Un octogone", "Un hexagone", "4"],
+         ["Combien d'os le corps humain possède-t-il ?", 
+         "36", "42" , "174", "206", "4"],
+         ["Si vous habitez au Brésil, dans quel océan irez-vous vous baigner ?", 
+         "L'océan Pacifique", "L'océan Atlantique" , "L'océan Indien", "L'océan Austral", "2"],
+         ["Quelle planète, portant le nom d'un Dieu romain, est la plus proche du Soleil ? ", 
+         "Mars", "Vénus" , "Mercure", "Apollon", "2"],
+         ["Dans la mythologie grecque, quel est le point faible d'Achille ?", 
+         "Ses oreilles", "Ses cheveux" , "Sa force", "Ses talons", "4"],
+         ["Si pour des fleurs d'une même espèce, le pollen se dépose sur le pistil alors :", 
+         "Il ne se passe rien", "Un fruit se développe" , "Une nouvelle espèce de fleur fait son apparition", "Une fleur se développe", "2"],
+		];
+		function _(x){
+	return document.getElementById(x);
+}
+function renderQuestion(){
+	test = _("test");
+	if(pos >= questions.length){
+		test.innerHTML = "<h2>Tu as "+correct+" réponses correctes pour "+questions.length+" questions </h2>";
+		_("test_status").innerHTML = "FIN DE QUIZZ";
+		pos = 0;
+		correct = 0;
+		return false;
+	}
+	_("test_status").innerHTML = "Question "+(pos+1)+" sur "+questions.length;
+	question = questions[pos][0];
+
+  chA = questions[pos][1];
+	chB = questions[pos][2];
+  chC = questions[pos][3];
+  chD = questions[pos][4];
+  
+  test.innerHTML = "<div class='colonne' id='liste'>";  
+	test.innerHTML += "<h3>"+question+"</h3>";
+	test.innerHTML += "<div class='calque_rep' id='rep1' onClick='checkAnswer(1)'>"+chA+"</div>";
+	test.innerHTML += "<div class='calque_rep' id='rep2' onClick='checkAnswer(2)'>"+chB+"</div>";
+  test.innerHTML += "<div class='calque_rep' id='rep3' onClick='checkAnswer(3)'>"+chC+"</div>";
+  test.innerHTML += "<div class='calque_rep' id='rep4' onClick='checkAnswer(4)'>"+chD+"</div>";
+  test.innerHTML += "</div>";
+}
+
+
+function checkAnswer(choice){
+
+	if(choice == questions[pos][5]){    
+		correct++;
+	}
+	pos++;
+	renderQuestion();
+}
+
+
+window.addEventListener("load", renderQuestion, false);
+</script>
+</head>
+<body bgcolor="#CFCECB">
+<h2 id="test_status"></h2>
+<fieldset id="test">
+	<legend></legend>
+	Le test est un fail !
+</fieldset>
+</body>
+<hr>
+            </div>
+        </div>
+      </div>
+    </div>
+    
+</section>
+
+  </section>
+     
+     
+  </div>
+
+
+<div class="header">
+  <a class="logo">Jeu pour enfants</a>
+  <div class="header-right">
+    <a href="Questionnaire-Expert.html">Refaire l'exercice</a>
+    <a href="Index-V4.html">Menu</a>
+  </div>
+</div>
+</div>
+</body>
+</html>

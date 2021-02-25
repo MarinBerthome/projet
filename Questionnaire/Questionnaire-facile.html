@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<title>Questionnaire</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+<link rel="stylesheet" href="css.css" />
+<link rel="stylesheet" type="text/css" href="Index-V2.css" media="all" />
+    
+<div class="bgimg w3-display-container w3-animate-opacity w3-text-white parallax filter filter-color-red"">
+  
+  <div class="w3-display-middle">
+  <section id="banner">
+      
+      <section class="cid-r7cqpTZvzZ mbr-fullscreen mbr-parallax-background" id="header1-0">
+
+    <body style="background-color: #EBEBEB;">
+	
+    <div class="mbr-overlay" style="opacity: 0.1; background-color: rgb(36, 233, 179);">
+    </div>
+    <div class="container text-center" data-stellar-background-ratio=".5">
+      <div class="row slider-wrapper">
+        <div class="col-md-12">
+            <div class="slider-text  slider-text-two">
+              
+
+<script>
+var pos = 0, test, test_status, question, choice, choices, chA, chB, chC, chD, A,B,C,D, correct = 0;
+var questions = [
+     ["Mets au pluriel : 'Un sport national.'",
+       "Des sports nationaux", "Des sport nationaux", "Des sports nationals", "Des sports nationales", "2"],
+         ["Sur ma feuille il y a écrit “ 5 x 3 ”. Aide moi à trouver ce qui me donne le même résultat :",
+          "10 + 3", "2 + 2 + 2 + 5 + 3", "10 + 5", "3 x 4", "3"],
+         ["J’ai 423 coquillages dans ma collection. Dis moi dans ce nombre quel est la bonne combinaison de centaines, dizaines et unités :", 
+         "300 + 40 + 3 ", "400 + 20 + 3", "200 + 30 + 4","300 + 40 + 2", "2"],
+         ["Lequel est un polygone ?", 
+         "Le cercle", "Le coeur", "La sphère", "Le rectangle", "4"],
+         ["Lequel de ces mots n'est pas correctement écrit ?", 
+         "Orteil", "Réveil" , "Porteil", "Appareil", "3"],
+         ["Quelle est la dernière lettre du mot '10' ?", 
+         "c", "s" , "x", "t", "2"],
+         ["Quelle est la phrase correctement écrite ?", 
+         "dehors, il fait déjà noir.", "Dehors, il fait déjà noir." , "Dehors, il fait déjà noir","Dehors, Il fait déjà noir", "2"],
+         ["Que sont les mots bicyclette et vélo ? ", 
+         "Des syllabes", "Des synonymes" , "Des symboles", "Des cigognes", "2"],
+         ["Sur une horloge, qu'indique la petite aiguille ?", 
+         "Les heures", "les minutes" , "les secondes", "Le jour", "1"],
+         ["Quel est le genre du mot 'marchande' ?", 
+         "Singulier", "Pluriel" , "Féminin", "Irrégulier", "2"],
+		];
+		function _(x){
+	return document.getElementById(x);
+}
+function renderQuestion(){
+	test = _("test");
+	if(pos >= questions.length){
+		test.innerHTML = "<h2>Tu as "+correct+" réponses correctes pour "+questions.length+" questions </h2>";
+		_("test_status").innerHTML = "FIN DE QUIZZ";
+		pos = 0;
+		correct = 0;
+		return false;
+	}
+	_("test_status").innerHTML = "Question "+(pos+1)+" sur "+questions.length;
+	question = questions[pos][0];
+
+  chA = questions[pos][1];
+	chB = questions[pos][2];
+  chC = questions[pos][3];
+  chD = questions[pos][4];
+  
+  test.innerHTML = "<div class='colonne' id='liste'>";  
+	test.innerHTML += "<h3>"+question+"</h3>";
+	test.innerHTML += "<div class='calque_rep' id='rep1' onClick='checkAnswer(1)'>"+chA+"</div>";
+	test.innerHTML += "<div class='calque_rep' id='rep2' onClick='checkAnswer(2)'>"+chB+"</div>";
+  test.innerHTML += "<div class='calque_rep' id='rep3' onClick='checkAnswer(3)'>"+chC+"</div>";
+  test.innerHTML += "<div class='calque_rep' id='rep4' onClick='checkAnswer(4)'>"+chD+"</div>";
+  test.innerHTML += "</div>";
+}
+
+
+function checkAnswer(choice){
+
+	if(choice == questions[pos][5]){    
+		correct++;
+	}
+	pos++;
+	renderQuestion();
+}
+
+
+window.addEventListener("load", renderQuestion, false);
+</script>
+</head>
+<body bgcolor="#CFCECB">
+<h2 id="test_status"></h2>
+<fieldset id="test">
+	<legend></legend>
+	Le test est un fail !
+</fieldset>
+</body>
+<hr>
+            </div>
+        </div>
+      </div>
+    </div>
+    
+</section>
+
+  </section>
+     
+     
+  </div>
+
+
+<div class="header">
+  <a class="logo">Jeu pour enfants</a>
+  <div class="header-right">
+    <a href="Questionnaire-facile.html">Refaire l'exercice</a>
+    <a href="Index-V4.html">Menu</a>
+  </div>
+</div>
+</div>
+</body>
+</html>
