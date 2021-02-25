@@ -1,13 +1,14 @@
 //#region Variables globales
 
-var bonne_rep, nb_erreurs,bonneRepBouton, score = 0;
+var tour,   bonne_rep, nb_erreurs,bonneRepBouton, score = 0;
 var nb_questions = 10;
 let startingMinutes =  2;
 let time = startingMinutes * 60;
 
-
 //Tableau qui va nous servir pour remplir les réponses.
 let tableau = [0,0,0,0];
+
+let tableauQuestion = [];
 
 //On instancie le timer
 var timer = setInterval(updateCountdown, 1000);
@@ -52,6 +53,7 @@ function debuterJeu()
     bonne_rep = 0;
     nb_erreurs = 0;
     nb_questions = 10;
+    tour = 0;
 
     erreursEl.innerText = nb_erreurs;
     bonneReponseEl.innerText = bonne_rep;
@@ -73,63 +75,59 @@ function debuterJeu()
 //Fonction appelée lorsque les 10 questions ont étées répondues
 function finirJeu()
 {
+    stopInterval(timer);
+    lesReponses.style.visibility = 'hidden';
+    leQuiz.innerHTML = "";
+    nb_questions = nb_questions - 1;
+    restantEl.innerText = nb_questions;
+    score+= time * 10;
 
-        lesReponses.style.visibility = 'hidden';
-        leQuiz.innerHTML = "";
-        nb_questions = nb_questions - 1;
-        restantEl.innerText = nb_questions;
-        score+= time * 10;
+    const img ="";
+    if(score > 1100)
+    {
+        leQuiz.innerHTML += "<img src='img/medaille-or.jpg'>";
+    }
+    else if(score >800)
+    {
+        leQuiz.innerHTML += "<img src='img/medaille-argent.jpg'>";
+    }
+    else if(score>600)
+    {
+        leQuiz.innerHTML += "<img src='img/medaille-bronze.jpg'>";
+    }
+    leQuiz.innerHTML += "<div>&nbsp;Jeux termin&eacute; vous avez " + bonne_rep + " bonnes r&eacute;ponses!</div>";
+    leQuiz.innerHTML += "<div>&nbsp;Vous avez r&eacute;pondu au questions en " + countDownEl.innerText + " minutes.</div>";
+    leQuiz.innerHTML += "<div>&nbsp;Votre score est de " + score + " Bravo !</div>";
 
-        const img ="";
-        if(score > 1100)
-        {
-            leQuiz.innerHTML += "<img src='img/medaille-or.jpg'>";
-        }
-        else if(score >800)
-        {
-            leQuiz.innerHTML += "<img src='img/medaille-argent.jpg'>";
-        }
-        else if(score>600)
-        {
-            leQuiz.innerHTML += "<img src='img/medaille-bronze.jpg'>";
-        }
-        leQuiz.innerHTML += "<div>&nbsp;Jeux termin&eacute; vous avez " + bonne_rep + " bonnes r&eacute;ponses!</div>";
-        leQuiz.innerHTML += "<div>&nbsp;Vous avez r&eacute;pondu au questions en " + countDownEl.innerText + " minutes.</div>";
-        leQuiz.innerHTML += "<div>&nbsp;Votre score est de " + score + " Bravo !</div>";
-
-        leQuiz.innerHTML += "</br><label for='name'>Entrez votre nom pour rentrer dans le classement!</label>";
-        leQuiz.innerHTML += "</br><input type='text' id='name' name='name' required minlength='4' maxlength='8' size='10'>";
-        leQuiz.innerHTML += "<button id='envoyer'>Ok!</button>";
+    leQuiz.innerHTML += "</br><label for='name'>Entrez votre nom pour rentrer dans le classement!</label>";
+    leQuiz.innerHTML += "</br><input type='text' id='name' name='name' required minlength='4' maxlength='8' size='10'>";
+    leQuiz.innerHTML += "<button id='envoyer'>Ok!</button>";
         
 
-        //AJAX pour envoyer les données à l'API php : traitement_xml.php
-        $(document).ready(function(){
-            $("#envoyer").click(function()
+    //AJAX pour envoyer les données à l'API php : traitement_xml.php
+    $(document).ready(function(){
+        $("#envoyer").click(function()
+        {
+            var name = $("#name").val();
+
+            $.post('./traitement_xml.php',
             {
+                pseudo: name,
+                score: score,
+                temps: countDownEl.innerText
 
-                var name = $("#name").val();
+            },
 
-                $.post('./traitement_xml.php',
-                {
-                    pseudo: name,
-                    score: score,
-                    temps: countDownEl.innerText
+            function(data, status)
+            {
+                console.log('data',data);
+                console.log('status', status);
 
-                },
+                afficherClassement();
 
-                function(data, status)
-                {
-                    console.log('data',data);
-                    console.log('status', status);
-
-                    afficherClassement();
-
-                });
             });
-            
         });
-
-
+    });
 }
 
 function afficherClassement()
@@ -144,10 +142,6 @@ function afficherClassement()
     leQuiz.innerHTML += "<table id='classement' cellpadding='10px' style='text-align:left;'><thead><tr><th>Pseudo</th> <th>Score</th> <th>Temps</th> </tr></thead><tbody></tbody></table></div>";
 
     afficheXML();
-    
-
-
-    
 
 }
 
@@ -211,27 +205,15 @@ function verif(nb)
 //Fonction qui permet de remplir la question et les réponses
 function remplir()
 {
-    //On génère le calcul à réaliser
-    operateur = getRandomOperator();
-    chiffre1 = getRandomNumber(2,9);
-    chiffre2 = getRandomNumber(2,9);
 
-    while(chiffre2 > chiffre1)
-    {
-        chiffre2 = getRandomNumber(1,9);
-    }
+    genererCalcul();
 
-    //Si c'est une soustraction on vérifie que le resultat n'est pas inferieur ou égal à 6 (cela ferait un calcul trop simple)
-    if(operateur == "-")
-    {
-        chiffre1 = verifNegatif(chiffre1, chiffre2);
-    }
+    genererReponses();
 
-    //On l'affiche sur la page
-    chiffre1El.innerText = chiffre1;
-    operateurEl.innerText = operateur;
-    chiffre2El.innerText = chiffre2;
+}
 
+function genererReponses()
+{
     //On génère les réponses
     tableau = [0,0,0,0];
     
@@ -239,11 +221,11 @@ function remplir()
     while(tableauRemplit() == false)
     {
         val = getRandomNumber(0,3)
-
+    
         //Si aucune valeur n'est encore assignée au noeud du tableau
         if(tableau[val]== 0)
         {
-            //On vérifie si la bonne réponse n'est pas déjà assignée
+                //On vérifie si la bonne réponse n'est pas déjà assignée
             if(correctIsHere() == false)
             {
                 tableau[val] = correct();
@@ -255,13 +237,46 @@ function remplir()
             }
         }
     }
-
+    
     //On affiche les réponses sur la page
     rep1El.innerText = tableau[0];
     rep2El.innerText = tableau[1];
     rep3El.innerText = tableau[2];
     rep4El.innerText = tableau[3];
+}
 
+function genererCalcul()
+{
+        //On génère le calcul à réaliser
+        operateur = getRandomOperator();
+        chiffre1 = getRandomNumber(2,9);
+
+        //Chiffre2 ne peut pas être supérieur à chiffre1 (risque de résultat de soustraction négatif)
+        chiffre2 = getRandomNumber(1, chiffre1);
+    
+        //Si tour = 0 ça veut dire qu'on a aucun valeur dans le tableau donc aucune chance de doublon
+        if(tour > 0)
+        {
+            for(let u = 0; u<tour; u++)
+            {
+                // Si il y a doublon
+                while(tableauQuestion[u] == chiffre1 + operateur + chiffre2)
+                {
+                    operateur = getRandomOperator();
+                    chiffre1 = getRandomNumber(2,9);
+                    chiffre2 = getRandomNumber(1, chiffre1);
+                }
+            }
+        }
+    
+        tableauQuestion[tour] = chiffre1 + operateur + chiffre2;
+
+        tour++;
+
+        //On l'affiche sur la page
+        chiffre1El.innerText = chiffre1;
+        operateurEl.innerText = operateur;
+        chiffre2El.innerText = chiffre2;
 }
 
 //Cette fonction va générer une valeur cohérente par rapport à la bonne réponse
@@ -282,11 +297,8 @@ function genererValeurInexistante()
         
         case 1:
             //Soustraction : on va soustraire la bonne réponse, on va aussi vérifier si la valeur n'est pas négative
-            valeur = getRandomNumber(1,9);
-            while(correct() - valeur <= 0)
-            {
-                valeur = getRandomNumber(1,9);
-            }
+            valeur = getRandomNumber(1,correct());
+
             valeur = correct() - valeur;
             break;
     }
@@ -300,6 +312,7 @@ function genererValeurInexistante()
             valeur = genererValeurInexistante()
         }
     }
+
     return valeur;
 }
 
@@ -402,7 +415,6 @@ function updateCountdown()
     else
     {
         stopInterval(timer);
-        alert("Temps écoulé!");
 
     }
 }
@@ -412,6 +424,7 @@ function stopInterval(leTimer)
     clearInterval(leTimer);
 }
 
+//Fonction pour afficher le XML
 function afficheXML()
 {
     let xmlContent = '';
@@ -453,6 +466,7 @@ function afficheXML()
 
 }
 
+//Fonction pour trier le classement par score (croissant)
 function trierTableau()
 {
     debugger;
