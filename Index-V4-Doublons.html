@@ -1,0 +1,570 @@
+<script src="script.js"></script>
+<!DOCTYPE html>
+<html>
+    <link rel="stylesheet" type="text/css" href="index.css"/>
+    <title>Arithm&eacute;tique</title>
+
+<div class="header">
+    <a class="logo">Jeu pour enfants</a>
+    <div class="header-right">
+      <a href="Index-V4.html">Recommencer</a>
+      <a href="QuestionnaireV4.html">Exercice suivant</a>
+    </div>
+</div>
+
+</br>
+
+
+
+<body>
+    <div class="mbr-overlay" style="opacity: 0.1; background-color: rgb(36, 233, 179);">
+    </div>
+
+    <div class="w3-display-middle">
+        <section id="banner">
+            <section class="cid-r7cqpTZvzZ" id="header1-0">
+
+            
+                <div class="container text-center" >
+                    <div class="row slider-wrapper">
+                        <div class="col-md-12">
+                        
+                            <div id="leQuiz" class="slider-text  slider-text-two">
+                                
+                                <!--Le bouton va permettre de débuter le jeu en appelant la fonction debuterJeu()-->
+                                <button id="debuterJeu" onclick="debuterJeu()">D&eacute;buter</button>
+
+                                </br>
+                                </br>
+                            
+
+                                <!--Div qui contient les chiffres-->
+                                <div id="calcul" style="float:left;padding-left:60px">
+
+                                <div id="chiffre1" style="float:left;font-size: xx-large;" ></div>
+                                <div id="operateur" style="float:left;font-size: xx-large;"></div>
+                                <div id="chiffre2" style="float:left;font-size: xx-large;"></div>
+
+                            </div>
+
+                            </br>
+                            </br>
+                            </br>
+                            
+                            <div id="lesReponses" class="bgimg w3-display-container w3-animate-opacity w3-text-white parallax filter filter-color-red">
+                                <div class="w3-display-middle">
+                                    <section id="banner">
+                                            
+                                        <section class="cid-r7cqpTZvzZ mbr-fullscreen mbr-parallax-background" id="header1-0">
+                                             <div class="w3-display-middle"></div>
+                                                <div class="container text-center" data-stellar-background-ratio=".5">
+                                                    <div class="row slider-wrapper">
+                                                        <div class="col-md-12">
+                                                            <div class="slider-text  slider-text-two">
+                                                                <div class='colonne' id='liste'>
+                                                                    <div class='calque_rep' id='rep1' onclick="verif(1)" ></div>
+                                                                    <div class='calque_rep' id='rep2' onclick="verif(2)"></div>
+                                                                    <div class='calque_rep' id='rep3' onclick="verif(3)"></div>
+                                                                    <div class='calque_rep' id='rep4' onclick="verif(4)"></div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        <!--Div qui contient les statistiques du jeux-->
+                                        <div id="stats" style="float:right; padding-right:75px">
+
+                                        <div style="float:left;">Nombre de bonnes reponses :&nbsp;</div>
+                                        <div id="bonne" style="float:left;font-weight:bold;text-align: center;">0</div>
+
+                                        <div style="float:left;">&nbsp; Nombre d'erreurs : &nbsp;</div>
+                                        <div id="erreur" style="float:left;font-weight:bold;text-align: center;">0</div>
+
+                                        <div style="float:left;"> &nbsp;Questions restantes :&nbsp;</div>
+                                        <div id="restant" style="float:left;font-weight:bold;text-align: center;">10</div>
+
+                                        <div style="float:left;"> &nbsp;Score :&nbsp;</div>
+                                        <div id="score" style="float:right;font-weight:bold;text-align: center;">0</div>
+
+                                        </section>   
+                                    </section>
+                                </div>
+                            </div>
+                        </div>  
+                    </div>
+                </div>
+            </section>
+        </section>
+    </div>
+</body>
+
+
+<script>
+
+    //#region Variables globales
+
+    var bonne_rep, nb_erreurs,bonneRepBouton, score = 0;
+    var nb_questions = 10;
+    let startingMinutes =  2;
+    let time = startingMinutes * 60;
+    
+    //Tableau qui va nous servir pour remplir les réponses.
+    let tableau = [0,0,0,0];
+
+    //Tableau qui compte relève les réponses pour vérifier les doublons
+    let tableauDoublon = [];
+
+    //On instancie le timer
+    var timer = setInterval(updateCountdown, 1000);
+    stopInterval(timer);
+
+    //#region Constantes qui permetent de récuperer les elements des div
+
+    //Les statistiques
+    const countDownEl = document.getElementById('countdown');
+    const bonneReponseEl = document.getElementById('bonne');
+    const restantEl = document.getElementById('restant');
+    const scoreEl  = document.getElementById('score');
+    const erreursEl = document.getElementById('erreur');
+
+    //Le calcul à resoudre
+    const chiffre1El = document.getElementById('chiffre1');
+    const chiffre2El = document.getElementById('chiffre2');
+    const operateurEl = document.getElementById('operateur');
+
+    //Les boutons reponses
+    const rep1El = document.getElementById('rep1');
+    const rep2El = document.getElementById('rep2');
+    const rep3El = document.getElementById('rep3');
+    const rep4El = document.getElementById('rep4');
+
+    //Les zones qui vont apparaitre et disparaitre en fonction du jeu
+    const leTest = document.getElementById('leTest');
+    const lesReponses = document.getElementById('lesReponses');
+    const leQuiz = document.getElementById('leQuiz');
+
+    //#endregion
+
+    //#endregion
+
+    //Fonction appelée lors de l'appuie du bouton Débuter.
+    function debuterJeu()
+    {
+        // On affiche les boutons de reponse
+        lesReponses.style.visibility = 'visible';
+
+        //On réénitialise les statistiques
+        bonne_rep = 0;
+        nb_erreurs = 0;
+        nb_questions = 10;
+
+        erreursEl.innerText = nb_erreurs;
+        bonneReponseEl.innerText = bonne_rep;
+        scoreEl.value = score;
+
+        //On réénitialise le timer
+        startingMinutes =  2;
+        time = startingMinutes * 60;
+        score = 0;
+
+        // On lance le timer à 2 minutes
+        clearInterval(timer);
+        timer = setInterval(updateCountdown, 1000);
+
+
+        suivant();
+    }
+    
+    //Fonction appelée lorsque les 10 questions ont étées répondues
+    function finirJeu()
+    {
+
+            lesReponses.style.visibility = 'hidden';
+            leQuiz.innerHTML = "";
+            nb_questions = nb_questions - 1;
+            restantEl.innerText = nb_questions;
+            score+= time * 2;
+
+            const img ="";
+            if(score > 900)
+            {
+                leQuiz.innerHTML += "<img src='img/medaille-or.jpg'>";
+            }
+            else if(score >800)
+            {
+                leQuiz.innerHTML += "<img src='img/medaille-argent.jpg'>";
+            }
+            else if(score>600)
+            {
+                leQuiz.innerHTML += "<img src='img/medaille-bronze.jpg'>";
+            }
+            leQuiz.innerHTML += "<div>&nbsp;Jeu termin&eacute; vous avez " + bonne_rep + " bonnes r&eacute;ponses!</div>";
+            leQuiz.innerHTML += "<div>&nbsp;Vous avez r&eacute;pondu au questions en " + countDownEl.innerText + " minutes.</div>";
+            leQuiz.innerHTML += "<div>&nbsp;Votre score est de " + score + " Bravo !</div>";
+
+            leQuiz.innerHTML += "</br><label for='name'>Entrez votre nom pour rentrer dans le classement!</label>";
+            leQuiz.innerHTML += "</br><input type='text' id='name' name='name' required minlength='4' maxlength='8' size='10'>";
+            leQuiz.innerHTML += "<button onClick='afficherClassement();'>Ok!</button>";
+
+    }
+
+    function afficherClassement()
+    {
+        const leBouton = document.getElementById('name');
+        const leNom = leBouton.value;
+
+        leQuiz.innerHTML = "";  
+        leQuiz.innerHTML += leNom + " a gagn&eacute; avec un score de " + score;
+
+        leQuiz.innerHTML += "<div id='content'>";
+        leQuiz.innerHTML += "<table id='classement' cellpadding='10px' style='text-align:left;'><thead><tr><th>Pseudo</th> <th>Score</th> <th>Temps</th> </tr></thead><tbody></tbody></table></div>";
+
+        window.onload = afficheXML();
+
+    }
+
+    //Fonction appelée lorsque la réponse est selectionée lors de l'appui sur un bouton
+    function suivant()
+    {
+        restantEl.innerText = nb_questions;
+
+        //On ajoute le calcul
+        remplir();
+    }
+
+    function verif(nb)
+    {
+        //On change le nombre de questions restantes
+        var  correction = correct();
+
+        switch (nb)
+        {
+            case 1:
+                reponse = rep1El.innerText;
+                break;
+            case 2:
+                reponse = rep2El.innerText;
+                break;
+            case 3:
+                reponse = rep3El.innerText;
+                break;
+            case 4:
+                reponse = rep4El.innerText;
+                break;
+        }
+
+
+        if(reponse == correction)
+        {
+            bonne_rep += 1;
+            bonneReponseEl.innerText = bonne_rep;
+            score += 100;
+            scoreEl.innerText = score;
+        }
+        else
+        {
+            erreursEl.innerText = nb_erreurs += 1; 
+        }
+
+        if(nb_questions != 1)
+        {
+            nb_questions = nb_questions - 1;
+            suivant();
+        }
+        else
+        {
+            finirJeu();
+
+        }
+
+        
+    }
+
+    //Fonction qui permet de remplir la question et les réponses
+    function remplir()
+    {
+    //On génère le calcul à réaliser
+         
+        operateur = getRandomOperator();
+        chiffre1 = getRandomNumber(2,9);
+        chiffre2 = getRandomNumber(2,9);
+
+        noDoublon();
+
+        tableauDoublon = [operateur, chiffre1, chiffre2];
+
+        while(chiffre2 > chiffre1)
+        {
+            chiffre2 = getRandomNumber(1,9);
+        }
+
+        //Si c'est une soustraction on vérifie que le resultat n'est pas inferieur ou égal à 6 (cela ferait un calcul trop simple)
+        if(operateur == "-")
+        {
+            chiffre1 = verifNegatif(chiffre1, chiffre2);
+        }
+
+        //On l'affiche sur la page
+        chiffre1El.innerText = chiffre1;
+        operateurEl.innerText = operateur;
+        chiffre2El.innerText = chiffre2;
+
+        //On génère les réponses
+        tableau = [0,0,0,0];
+        
+        //On parcours le tableau
+        while(tableauRemplit() == false)
+        {
+            val = getRandomNumber(0,3)
+
+            //Si aucune valeur n'est encore assignée au noeud du tableau
+            if(tableau[val]== 0)
+            {
+                //On vérifie si la bonne réponse n'est pas déjà assignée
+                if(correctIsHere() == false)
+                {
+                    tableau[val] = correct();
+                }
+                //Sinon on génere une valeur cohérente par rapport au calcul
+                else
+                {
+                    tableau[val] =  genererValeurInexistante();
+                }
+            }
+        }
+
+        //On affiche les réponses sur la page
+        rep1El.innerText = tableau[0];
+        rep2El.innerText = tableau[1];
+        rep3El.innerText = tableau[2];
+        rep4El.innerText = tableau[3];
+
+    }
+
+    //Cette fonction va générer une valeur cohérente par rapport à la bonne réponse
+    function genererValeurInexistante()
+    {
+
+        //Cette variable va permettre de déterminer si on va additionner ou soustraire
+        var operator =  Math.floor(Math.random()*2  );
+
+        var valeur = 0;
+
+        switch (operator)
+        {
+            case 0:
+                //Addition : on va additionner la bonne réponse avec un valeur comprise entre 2 et 9
+                valeur = correct() + getRandomNumber(2,9);
+                break;
+            
+            case 1:
+                //Soustraction : on va soustraire la bonne réponse, on va aussi vérifier si la valeur n'est pas négative
+                valeur = getRandomNumber(1,9);
+                while(correct() - valeur <= 0)
+                {
+                    valeur = getRandomNumber(1,9);
+                }
+                valeur = correct() - valeur;
+                break;
+        }
+        
+        //On vérifie si cette valeur n'est pas déjà assignée dans le tableau
+        for(let i = 0; i < 4; i++)
+        {
+            if(tableau[i] == valeur)
+            {
+                //Si elle est déjà assignée alors on faire une recursive.
+                valeur = genererValeurInexistante()
+            }
+        }
+        return valeur;
+    }
+
+    //Fonction qui permet de récuperer la bonne réponse
+    function correct()
+    {
+        //On récupere toutes les valeurs.
+        var chiffre1 = chiffre1El.innerHTML;
+        var chiffre2 = chiffre2El.innerHTML;
+        var operateur = operateurEl.innerHTML;
+
+        //On va faire le calcul pour avoir le bon résultat, le switch va permettre de calculer en fonction de l'opérateur
+        var correction;
+        switch (operateur)
+        {
+            case '+' :
+                //On va mettre ici parseFloat car sinon chiffre1 et chiffre2 vont être concaténés
+                correction =  parseFloat(chiffre1)  + parseFloat(chiffre2) ;
+                break;
+
+            case '-' :
+                correction = chiffre1 - chiffre2;
+                break;
+            
+            case 'x' :
+                correction = chiffre1 * chiffre2;
+                break;
+        }
+
+        return correction;
+    }
+
+    //Fonction qui permet de savoir si la bonne réponse est déjà assignée dans le tableau
+    function correctIsHere()
+    {
+        var present = false;
+        var bonneRep = correct();
+
+        for(let i=0; i < 4 ; i++ )
+        {
+            if(tableau[i] == bonneRep)
+            {
+                present = true;
+                break; 
+            }
+        }
+        return present;
+    }
+
+    //Fonction qui permet de savoir si le tableau est remplit
+    function tableauRemplit(tab)
+    {
+        var remplit = true;
+        
+        for(let i = 0; i < 4; i++)
+        {
+            if(tableau[i] == 0)
+            {
+                remplit = false;
+                break;
+            }
+        }
+        return remplit;
+    }
+
+    function getRandomNumber(min, max)
+    {
+
+        // On arrondit à la décimale
+        min = Math.ceil(min); 
+        max = Math.floor(max);
+
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+
+    function getRandomOperator()
+    {
+        const operators = ["+", "x", "-"];
+
+        const random = Math.floor(Math.random() * operators.length);
+
+        return operators[random];
+
+    }
+
+    function updateCountdown()
+    { 
+
+        const minutes = Math.floor(time/60);
+        let seconds = time % 60;
+
+        seconds = seconds < 10 ? '0' + seconds : seconds;
+
+        countDownEl.innerHTML = `${minutes} : ${seconds}`;
+
+        if(time > 0)
+        {
+            time--;
+        }
+        else
+        {
+            stopInterval(timer);
+            alert("Temps écoulé!");
+
+        }
+    }
+
+    function stopInterval(leTimer)
+    {
+        clearInterval(leTimer);
+    }
+
+    // Fonction qui vérifie les doublons
+    function noDoublon() {
+
+        let i = 0;
+        
+        for (i = 0; i<= 3; i+=1) 
+        {
+            if (tableauDoublon[i] == operateur ) 
+            {
+                operateur = getRandomOperator();
+                noDoublon();
+            }
+            else 
+            {
+                if (tableauDoublon[i] == chiffre1) 
+                {
+                    chiffre1 = getRandomNumber(1,9);
+                    noDoublon();
+                }
+                else
+                {
+                    if(tableauDoublon[i] == chiffre2)
+                    {
+                        chiffre2 = getRandomNumber(1,9);
+                        noDoublon();
+                    }
+                }
+            }
+        }
+    }
+    
+    function afficheXML()
+    {
+
+        let xmlContent = '';
+        let tableClassement = document.getElementById('classement');
+
+        debugger;
+
+        fetch('classement.xml').then((response)=> {
+            response.text().then((xml)=>{
+                xmlContent = xml;
+                let parser = new DOMParser();
+                let xmlDOM = parser.parseFromString(xmlContent, 'application/xml');
+                let player = xmlDOM.querySelectorAll('player');
+
+                player.forEach(playerXmlNode => {
+
+                    let row = document.createElement('tr');
+
+                    //pseudo
+                    let td = document.createElement('td');
+                    td.innerText = playerXmlNode.children[0].innerHTML;
+                    row.appendChild(td);
+
+                    //score
+                    td = document.createElement('td');
+                    td.innerText = playerXmlNode.children[1].innerHTML;
+                    row.appendChild(td);
+                    
+                    //temps
+                    td = document.createElement('td');
+                    td.innerText = playerXmlNode.children[2].innerHTML;
+                    row.appendChild(td);
+
+                    tableClassement.children[1].appendChild(row);
+                    
+                });
+                
+            });
+        });    
+    }
+
+</script>
+
+</body>
+</html> 
