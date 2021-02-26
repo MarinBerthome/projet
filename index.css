@@ -1,7 +1,7 @@
+
 body{
     color:rgb(0, 0, 0);
     font-family: arial;
-    background-color:rgb(0, 193, 252);
 }
 #test{
     width: 500px;
@@ -302,14 +302,71 @@ position: relative;
 	color:#7030a0;
 	font-size:20px;
 	margin-bottom:20px;
-	margin-left:30px;
+	margin-left:50px;
     margin-top:20px;
 }
 
+.calque_rep2
+{
+	width:295px;
+	padding-top:25px;
+	float:left;
+	height:80px;
+	text-align:center;
+	border:#333 1px solid;
+	-moz-border-radius: 10px;
+    -webkit-border-radius: 10px;	
+	background-color:#EDEEEE;
+	border:#7030a0 1px solid;
+	color:#7030a0;
+	font-size:20px;
+	margin-bottom:20px;
+	margin-left:90px;
+    margin-top:20px;
+}
 
 .calque_rep:hover
 {
 	cursor:pointer;
 	box-shadow: 6px 6px 0px #aaa;
 	background-color:#ccccff;
+}
+#video-fond {
+  overflow: hidden;
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+#video-fond > video {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+/* 1. Pas de support d'object-fit */
+@media (min-aspect-ratio: 16/9) {
+  #video-fond > video {
+    height: 300%;
+    top: -100%;
+  }
+}
+@media (max-aspect-ratio: 16/9) {
+  #video-fond > video {
+    width: 300%;
+    left: -100%;
+  }
+}
+/* 2. En cas de support d'object-fit, écrase les règles en (1) */
+@supports (object-fit: cover) {
+  #video-fond > video {
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    object-fit: cover;
+  }
+}
 }
