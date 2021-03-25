@@ -83,10 +83,10 @@ function finirJeu()
     leQuiz.innerHTML = "";
     nb_questions = nb_questions - 1;
     restantEl.innerText = nb_questions;
-    score+= time * 10;
+    score+= time * 2;
 
     const img ="";
-    if(score > 1100)
+    if(score > 900)
     {
         leQuiz.innerHTML += "<img src='img/medaille-or.jpg'>";
     }
@@ -161,7 +161,7 @@ function verif(nb)
     {
         bonne_rep += 1;
         bonneReponseEl.innerText = bonne_rep;
-        score += 40;
+        score += 100;
         scoreEl.innerText = score;
     }
     else
