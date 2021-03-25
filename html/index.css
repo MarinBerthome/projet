@@ -1,0 +1,315 @@
+body{
+    color:rgb(0, 0, 0);
+    font-family: arial;
+    background-color:rgb(0, 193, 252);
+}
+#test{
+    width: 500px;
+    margin: auto;
+            color:black;
+}
+#test_status{
+       
+    width: 500px;
+    margin: auto;
+    text-align:center;
+            
+}
+
+#lesReponses
+{
+    visibility: hidden;
+}
+
+#leQuiz
+{
+    visibility: visible;
+}
+
+#laFin
+{
+    visibility: hidden  ;
+}
+
+.stats{
+
+    float: left;
+    margin-left: auto;
+    margin-right: auto;
+}
+    
+
+
+body,h1 {font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif, sans-serif; }
+body, html {height: 100%;
+}
+.bgimg {
+  background-image: url('image/aquarium.jpg');
+  min-height: 100%;
+  max-height: 200%;
+  background-position: center;
+  background-size: cover;
+  background-attachment: fixed;
+}
+.header {
+  overflow: hidden;
+  z-index: 1;
+  background-color: rgba(2,86,94,.6);
+  padding: 20px 10px;
+  width: 100%;
+ 
+}
+
+/* Style the header links */
+.header a {
+  float: left;
+  text-transform: uppercase;
+  color:aquamarine;
+  text-align: center;
+  padding: 12px;
+  text-decoration: none;
+  font-size: 20px;
+  font-family : 'Raleway', sans-serif;
+  letter-spacing: 2px;
+  line-height: 25px;
+  border-radius: 4px;
+}
+
+/* Style the logo link (notice that we set the same value of line-height and font-size to prevent the header to increase when the font gets bigger */
+
+.header a.logo {
+  font-size: 25px;
+  font-weight: bold;
+
+}
+
+/* Change the background color on mouse-over */
+.header a:hover {
+  background-color:cadetblue;
+  color: #fff;
+}
+
+/* Style the active/current link*/
+.header a.active {
+  background-color: #1E90FF;
+  color: white;
+}
+
+/* Float the link section to the right */
+.header-right {
+  float: right;
+}
+
+/* Add media queries for responsiveness - when the screen is 500px wide or less, stack the links on top of each other */
+@media screen and (max-width: 500px) {
+  .header a {
+    float: none;
+    display: block;
+    text-align: left;
+  }
+  .header-right {
+    float: none;
+  }
+}
+#banner h2 {
+			color:darkblue;
+			display: inline-block;
+			font-size: 3.5em;
+			line-height: 1.35;
+			margin-bottom: 0.5em;
+		}
+
+#banner p {
+			color: #ffffff;
+			font-size: 1.5em;
+			margin-bottom: 0.75em;
+			text-transform: uppercase;
+                        display: inline-block;
+                        font-weight: 600;
+		}
+
+
+ .cid-r7cqpTZvzZ .mbr-section-title {
+    color: #232323;
+}
+.display-1 {
+    font-size: 2.8rem;
+    font-size: calc( 1.875rem + (3.5 - 1.875) * ((100vw - 20rem) / (48 - 20)));
+    line-height: calc( 1.4 * (1.875rem + (3.5 - 1.875) * ((100vw - 20rem) / (48 - 20))));
+}
+.display-1 {
+    font-family: 'PT Serif', serif;
+    font-size: 3.5rem;
+}
+.mbr-section-title {
+    font-style: normal;
+    line-height: 1.2;
+}
+.mbr-bold {
+    font-weight: 700;
+}
+.mbr-bold {
+    font-weight: 700;
+}
+.align-left, .align-center, .align-right, .mbr-section-btn, .mbr-section-title {
+    text-align: center;
+}
+.align-center {
+    text-align: center;
+}
+h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6, .display-1, .display-2, .display-3, .display-4 {
+    line-height: 1;
+    word-break: break-word;
+    word-wrap: break-word;
+}
+.display-1 {
+    font-size: 6rem;
+    font-weight: 300;
+    line-height: 1.2;
+}
+h1, h2, h3, h4, h5, h6 {
+    margin-top: 0;
+    margin-bottom: .5rem;
+}
+.h2, h2 {
+    font-size: 2rem;
+}
+.h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6 {
+    margin-bottom: .5rem;
+    font-family: inherit;
+    font-weight: 500;
+    line-height: 1.2;
+    color: inherit;
+}
+h1, h2, h3, h4, h5, h6 {
+    margin-top: 0;
+    margin-bottom: .5rem;
+}
+*, ::after, ::before {
+    box-sizing: border-box;
+}
+*, ::after, ::before {
+    box-sizing: inherit;
+}
+*, ::after, ::before {
+    box-sizing: border-box;
+}
+
+h2 {
+    display: block;
+    font-size: 1.5em;
+    margin-block-start: 0.83em;
+    margin-block-end: 0.83em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    font-weight: bold;
+}
+.cid-r7cqpTZvzZ .slider-text-two {
+    background: #ffffff  none repeat scroll 0 0;
+    display: inline-table;
+    outline: 1px solid rgba(0, 0, 0, 0.2);
+    outline-offset: -15px;
+    padding: 30px 30px;
+    position: relative;
+    text-align: center;
+}
+section, .container, .container-fluid {
+    position:static;
+top: -42px; 
+    word-wrap: break-word;
+}
+.text-center {
+    text-align: center!important;
+}	
+  
+.triedy_prekliky {
+	margin-top: 500px;
+	margin-bottom: 20px;
+}
+.triedy_prekliky a {
+	display: inline-block;
+	margin-right: 4%;
+	width: 22%;
+	background-color: #1C75BC;
+	padding: 10px;
+	box-sizing:content-box;
+	margin-bottom: 20px;
+	font-size: 23px;
+	font-weight: 300;
+	color: rgb(255, 255, 255);
+	-moz-border-radius: 10px;
+	border-radius: 10px;
+	text-align: center;
+}
+.triedy_prekliky a:nth-child(4),.triedy_prekliky a:nth-child(8) {
+	margin-right: 0px;
+}
+.triedy_prekliky a:hover {
+	background-color: #1A6EB0;
+}
+.no_r_margin {
+	margin-right: 0px !important;
+}
+.priklady_prekliky {
+	margin-bottom: 50px;
+}
+.priklady_prekliky a {
+position: relative;
+	font-weight: normal;
+	font-size: 16px;
+	color: #FFF;
+	padding: 12px;
+	margin: 0px;
+	margin-bottom: 20px;
+	margin-right: 4%;
+	width: 30.66%;
+	float: left;
+	line-height: 22px;
+	min-height: 44px;
+	border: 1px solid #6B8E23;
+	cursor: pointer;
+	text-align: left;
+	display: block;
+	box-sizing: border-box;
+	border-radius: 10px 10px 10px 10px;
+	-moz-border-radius: 10px 10px 10px 10px;
+	-webkit-border-radius: 10px 10px 10px 10px;
+	background: rgba(104,117,29,1);
+
+}
+
+.colonne
+{
+	width:720px;
+	float:left;
+	height:auto;
+	text-align:center;
+	margin-left: 40px;
+}
+
+.calque_rep
+{
+	width:295px;
+	padding-top:25px;
+	float:left;
+	height:80px;
+	text-align:center;
+	border:#333 1px solid;
+	-moz-border-radius: 10px;
+    -webkit-border-radius: 10px;	
+	background-color:#EDEEEE;
+	border:#7030a0 1px solid;
+	color:#7030a0;
+	font-size:20px;
+	margin-bottom:20px;
+	margin-left:30px;
+    margin-top:20px;
+}
+
+
+.calque_rep:hover
+{
+	cursor:pointer;
+	box-shadow: 6px 6px 0px #aaa;
+	background-color:#ccccff;
+}
